@@ -1,0 +1,40 @@
+{
+  "name": "shopify-email-automation",
+  "version": "1.0.0",
+  "description": "Transactional and lifecycle email automation service for Shopify + Shiprocket",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "db:migrate": "prisma migrate dev",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:studio": "prisma studio",
+    "db:reset": "prisma migrate reset --force"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.16.0",
+    "@sendgrid/mail": "^8.1.3",
+    "axios": "^1.7.2",
+    "bullmq": "^5.12.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "handlebars": "^4.7.8",
+    "ioredis": "^5.4.1",
+    "node-cron": "^3.0.3",
+    "resend": "^4.0.0",
+    "winston": "^3.13.0"
+  },
+  "devDependencies": {
+    "localtunnel": "^2.0.2",
+    "nodemon": "^3.1.4",
+    "prisma": "^5.16.0"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "public/*",
+      "src/templates/*",
+      "logs/*"
+    ]
+  }
+}

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Refund Has Been Processed ✅</title>
+</head>
+<body style="margin:0;padding:0;background-color:#F0F0F7;font-family:Arial,Helvetica,sans-serif;">
+  <div style="display:none;max-height:0;overflow:hidden;">Your refund is on its way — it should appear in your account soon.</div>
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#F0F0F7;padding:32px 0;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(79,70,229,0.1);">
+          <!-- HEADER -->
+          <tr>
+            <td style="background:linear-gradient(135deg,#374151 0%,#1F2937 100%);padding:40px 48px;text-align:center;">
+              {{#if storeLogoUrl}}<img src="{{storeLogoUrl}}" alt="{{storeName}}" width="140" style="display:block;margin:0 auto 20px;max-height:60px;object-fit:contain;">{{else}}<div style="font-size:26px;font-weight:700;color:#ffffff;margin-bottom:16px;">{{storeName}}</div>{{/if}}
+              <div style="font-size:48px;margin-bottom:8px;">✅</div>
+              <h1 style="margin:0;color:#ffffff;font-size:28px;font-weight:700;line-height:1.3;">Refund Processed</h1>
+              <p style="margin:10px 0 0;color:rgba(255,255,255,0.8);font-size:15px;">Your refund for order {{orderNumber}} is on its way</p>
+            </td>
+          </tr>
+          <!-- BODY -->
+          <tr>
+            <td style="padding:40px 48px;">
+              <p style="margin:0 0 24px;font-size:16px;color:#555;line-height:1.7;">Hi <strong>{{#if customerName}}{{customerName}}{{else}}there{{/if}}</strong>, we're sorry your order didn't work out. Your refund has been successfully processed and is on its way back to you.</p>
+
+              <!-- REFUND DETAILS BOX -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:32px;">
+                <tr>
+                  <td style="background:#F9FAFB;border-radius:12px;padding:28px;border:1px solid #E5E7EB;">
+                    <p style="margin:0 0 16px;font-size:14px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.5px;">Refund Details</p>
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td style="padding:8px 0;border-bottom:1px solid #E5E7EB;font-size:14px;color:#6B7280;">Order Number</td>
+                        <td style="padding:8px 0;border-bottom:1px solid #E5E7EB;text-align:right;font-size:14px;font-weight:600;color:#111827;">{{orderNumber}}</td>
+                      </tr>
+                      {{#if refundId}}
+                      <tr>
+                        <td style="padding:8px 0;border-bottom:1px solid #E5E7EB;font-size:14px;color:#6B7280;">Refund ID</td>
+                        <td style="padding:8px 0;border-bottom:1px solid #E5E7EB;text-align:right;font-size:13px;font-weight:600;color:#111827;">{{refundId}}</td>
+                      </tr>
+                      {{/if}}
+                      {{#if refundMethod}}
+                      <tr>
+                        <td style="padding:8px 0;border-bottom:1px solid #E5E7EB;font-size:14px;color:#6B7280;">Refund Method</td>
+                        <td style="padding:8px 0;border-bottom:1px solid #E5E7EB;text-align:right;font-size:14px;font-weight:600;color:#111827;">{{refundMethod}}</td>
+                      </tr>
+                      {{/if}}
+                      <tr>
+                        <td style="padding:12px 0 0;font-size:15px;color:#374151;font-weight:600;">Refund Amount</td>
+                        <td style="padding:12px 0 0;text-align:right;font-size:22px;font-weight:800;color:#10B981;">{{currency}} {{refundAmount}}</td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- TIMELINE -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:32px;">
+                <tr>
+                  <td style="background:#ECFDF5;border-radius:12px;padding:20px;border-left:4px solid #10B981;">
+                    <p style="margin:0 0 8px;font-size:14px;font-weight:700;color:#065F46;">⏱ What happens next?</p>
+                    <p style="margin:0 0 6px;font-size:13px;color:#047857;">• Refund has been initiated on our end</p>
+                    <p style="margin:0 0 6px;font-size:13px;color:#047857;">• It will reflect in your account within <strong>{{processingDays}}</strong></p>
+                    <p style="margin:0;font-size:13px;color:#047857;">• Processing time varies by bank/payment provider</p>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- REASSURANCE NOTE -->
+              <p style="margin:0 0 32px;font-size:14px;color:#888;text-align:center;line-height:1.6;">We're sorry for the inconvenience. We hope to serve you better next time. If you have any questions, please don't hesitate to reach out to our support team.</p>
+
+              <!-- CTA -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td align="center">
+                    <a href="mailto:{{storeSupportEmail}}" style="display:inline-block;background:linear-gradient(135deg,#374151,#4B5563);color:#ffffff;font-size:16px;font-weight:700;text-decoration:none;padding:14px 40px;border-radius:50px;">Contact Support</a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <!-- FOOTER -->
+          <tr>
+            <td style="background:#F9FAFB;padding:28px 48px;border-top:1px solid #E5E7EB;text-align:center;">
+              <p style="margin:0 0 8px;font-size:13px;color:#888;">Support: <a href="mailto:{{storeSupportEmail}}" style="color:#4F46E5;text-decoration:none;">{{storeSupportEmail}}</a></p>
+              <p style="margin:0 0 12px;font-size:12px;color:#aaa;">{{storeAddress}}</p>
+              <p style="margin:0 0 8px;font-size:12px;color:#bbb;">Your order was placed at <a href="{{storeUrl}}" style="color:#4F46E5;text-decoration:none;">{{storeName}}</a>.</p>
+              <p style="margin:0 0 4px;font-size:12px;"><a href="{{unsubscribeUrl}}" style="color:#bbb;">Unsubscribe</a></p>
+              <p style="margin:0;font-size:12px;color:#ccc;">&copy; {{currentYear}} {{storeName}}. All rights reserved.</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>You left something behind 🛒</title>
+  <style>
+    @media only screen and (max-width: 600px) {
+      .email-container { width: 100% !important; }
+      .header-title { font-size: 24px !important; }
+    }
+  </style>
+</head>
+<body style="margin:0;padding:0;background-color:#F0F0F7;font-family:Arial,Helvetica,sans-serif;">
+  <div style="display:none;max-height:0;overflow:hidden;">Your cart is waiting for you — complete your purchase now!</div>
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#F0F0F7;padding:32px 0;">
+    <tr>
+      <td align="center">
+        <table class="email-container" role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(79,70,229,0.1);">
+          <!-- HEADER -->
+          <tr>
+            <td style="background:linear-gradient(135deg,#4F46E5 0%,#7C3AED 100%);padding:40px 48px;text-align:center;">
+              {{#if storeLogoUrl}}<img src="{{storeLogoUrl}}" alt="{{storeName}}" width="140" style="display:block;margin:0 auto 20px;max-height:60px;object-fit:contain;">{{else}}<div style="font-size:26px;font-weight:700;color:#ffffff;margin-bottom:16px;">{{storeName}}</div>{{/if}}
+              <div style="font-size:40px;margin-bottom:8px;">🛒</div>
+              <h1 class="header-title" style="margin:0;color:#ffffff;font-size:28px;font-weight:700;line-height:1.3;">Your cart misses you!</h1>
+              <p style="margin:10px 0 0;color:rgba(255,255,255,0.85);font-size:15px;">You left some great items behind</p>
+            </td>
+          </tr>
+          <!-- BODY -->
+          <tr>
+            <td style="padding:40px 48px;">
+              <p style="margin:0 0 8px;font-size:18px;color:#1a1a2e;font-weight:600;">Hi {{#if customerName}}{{customerName}}{{else}}there{{/if}} 👋</p>
+              <p style="margin:0 0 32px;font-size:15px;color:#555;line-height:1.7;">Looks like you forgot something in your cart. The good news? We saved it for you. These items are popular and may sell out soon!</p>
+              <!-- CART ITEMS -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
+                {{#each cartItems}}
+                <tr>
+                  <td style="padding:12px 0;border-bottom:1px solid #F0F0F7;">
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td width="80" style="vertical-align:top;padding-right:16px;">
+                          {{#if imageUrl}}<img src="{{imageUrl}}" alt="{{name}}" width="80" height="80" style="border-radius:10px;object-fit:cover;display:block;">{{else}}<div style="width:80px;height:80px;border-radius:10px;background:#ede9fe;text-align:center;line-height:80px;font-size:28px;">📦</div>{{/if}}
+                        </td>
+                        <td style="vertical-align:middle;">
+                          <p style="margin:0 0 4px;font-size:15px;font-weight:600;color:#1a1a2e;">{{name}}</p>
+                          {{#if variantTitle}}<p style="margin:0 0 4px;font-size:13px;color:#888;">{{variantTitle}}</p>{{/if}}
+                          <p style="margin:0;font-size:14px;color:#555;">Qty: {{quantity}}</p>
+                        </td>
+                        <td width="100" style="vertical-align:middle;text-align:right;">
+                          <p style="margin:0;font-size:16px;font-weight:700;color:#4F46E5;">{{price}}</p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                {{/each}}
+              </table>
+              <!-- TOTAL -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:32px;">
+                <tr>
+                  <td style="background:#F5F3FF;border-radius:12px;padding:16px 20px;">
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td style="font-size:15px;color:#555;font-weight:500;">Cart Total</td>
+                        <td style="text-align:right;font-size:20px;font-weight:700;color:#4F46E5;">{{cartTotal}}</td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+              <!-- CTA -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td align="center" style="padding-bottom:24px;">
+                    <a href="{{checkoutUrl}}" style="display:inline-block;background:linear-gradient(135deg,#4F46E5,#7C3AED);color:#ffffff;font-size:17px;font-weight:700;text-decoration:none;padding:16px 48px;border-radius:50px;letter-spacing:0.3px;">Complete Your Purchase &rarr;</a>
+                  </td>
+                </tr>
+              </table>
+              <p style="margin:0;font-size:14px;color:#888;text-align:center;">This link expires soon. Don't miss out on the items you love!</p>
+            </td>
+          </tr>
+          <!-- FOOTER -->
+          <tr>
+            <td style="background:#F8F7FF;padding:28px 48px;border-top:1px solid #E8E6FF;text-align:center;">
+              <p style="margin:0 0 8px;font-size:13px;color:#888;">Questions? <a href="mailto:{{storeSupportEmail}}" style="color:#4F46E5;text-decoration:none;">{{storeSupportEmail}}</a></p>
+              <p style="margin:0 0 12px;font-size:12px;color:#aaa;">{{storeAddress}}</p>
+              <p style="margin:0 0 4px;font-size:12px;color:#bbb;">You're receiving this because you added items to your cart at <a href="{{storeUrl}}" style="color:#4F46E5;text-decoration:none;">{{storeName}}</a>.</p>
+              <p style="margin:0 0 8px;font-size:12px;"><a href="{{unsubscribeUrl}}" style="color:#bbb;">Unsubscribe</a></p>
+              <p style="margin:0;font-size:12px;color:#ccc;">&copy; {{currentYear}} {{storeName}}. All rights reserved.</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

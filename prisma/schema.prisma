@@ -1,0 +1,166 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────────────────────────────
+// CUSTOMERS
+// ─────────────────────────────────────────────────────────────
+model Customer {
+  id             String    @id @default(cuid())
+  email          String    @unique
+  name           String?
+  unsubscribed   Boolean   @default(false)
+  unsubscribedAt DateTime? @map("unsubscribed_at")
+  createdAt      DateTime  @default(now()) @map("created_at")
+
+  checkouts Checkout[]
+  orders    Order[]
+  emailLogs EmailLog[]
+
+  @@map("customers")
+}
+
+// ─────────────────────────────────────────────────────────────
+// CHECKOUTS (cart / checkout sessions from Shopify)
+// ─────────────────────────────────────────────────────────────
+model Checkout {
+  id             String         @id // Shopify checkout token
+  customerEmail  String         @map("customer_email")
+  cartItems      Json           @map("cart_items") // Array of {name, price, quantity, imageUrl, variantId}
+  totalPrice     String         @default("0") @map("total_price")
+  currency       String         @default("INR")
+  checkoutUrl    String?        @map("checkout_url") // Shopify abandoned_checkout_url
+  status         CheckoutStatus @default(active)
+  reminder1JobId String?        @map("reminder1_job_id") // BullMQ job ID
+  reminder2JobId String?        @map("reminder2_job_id") // BullMQ job ID
+  createdAt      DateTime       @default(now()) @map("created_at")
+  updatedAt      DateTime       @updatedAt @map("updated_at")
+
+  customer  Customer?  @relation(fields: [customerEmail], references: [email])
+  orders    Order[]
+  emailLogs EmailLog[]
+
+  @@index([customerEmail])
+  @@index([status])
+  @@map("checkouts")
+}
+
+enum CheckoutStatus {
+  active
+  abandoned
+  converted
+}
+
+// ─────────────────────────────────────────────────────────────
+// ORDERS
+// ─────────────────────────────────────────────────────────────
+model Order {
+  id                   String         @id // Shopify order ID (as string)
+  shopifyOrderId       String         @unique @map("shopify_order_id") // Numeric Shopify ID
+  checkoutId           String?        @map("checkout_id")
+  customerEmail        String         @map("customer_email")
+  customerName         String?        @map("customer_name")
+  orderNumber          String?        @map("order_number") // e.g. "#1001"
+  totalPrice           String         @default("0") @map("total_price")
+  currency             String         @default("INR")
+  lineItems            Json           @map("line_items") // Array of {name, price, quantity, imageUrl}
+  shippingAddress      String?        @map("shipping_address") // Formatted string
+  status               OrderStatus    @default(pending)
+  fulfillmentStatus    String?        @map("fulfillment_status")
+  shiprocketShipmentId String?        @map("shiprocket_shipment_id")
+  awbCode              String?        @map("awb_code")
+  trackingUrl          String?        @map("tracking_url")
+  courierName          String?        @map("courier_name")
+  shippingStatus       ShippingStatus @default(none)
+  estimatedDelivery    String?        @map("estimated_delivery")
+  createdAt            DateTime       @default(now()) @map("created_at")
+  updatedAt            DateTime       @updatedAt @map("updated_at")
+
+  customer  Customer?  @relation(fields: [customerEmail], references: [email])
+  checkout  Checkout?  @relation(fields: [checkoutId], references: [id])
+  emailLogs EmailLog[]
+
+  @@index([customerEmail])
+  @@index([shippingStatus])
+  @@index([checkoutId])
+  @@map("orders")
+}
+
+enum OrderStatus {
+  pending
+  paid
+  fulfilled
+  refunded
+}
+
+enum ShippingStatus {
+  none
+  shipped
+  out_for_delivery
+  delivered
+  returned
+}
+
+// ─────────────────────────────────────────────────────────────
+// EMAIL LOGS
+// ─────────────────────────────────────────────────────────────
+model EmailLog {
+  id             String      @id @default(cuid())
+  emailType      String      @map("email_type") // e.g. "order_confirmation", "abandoned_cart_1"
+  recipientEmail String      @map("recipient_email")
+  orderId        String?     @map("order_id")
+  checkoutId     String?     @map("checkout_id")
+  status         EmailStatus @default(sent)
+  attempts       Int         @default(0)
+  sentAt         DateTime?   @map("sent_at")
+  error          String?
+  resendId       String?     @map("resend_id") // Provider's message ID
+  subject        String?
+  createdAt      DateTime    @default(now()) @map("created_at")
+
+  order    Order?    @relation(fields: [orderId], references: [id])
+  checkout Checkout? @relation(fields: [checkoutId], references: [id])
+  customer Customer? @relation(fields: [recipientEmail], references: [email])
+
+  @@index([emailType])
+  @@index([recipientEmail])
+  @@index([orderId])
+  @@index([checkoutId])
+  @@index([status])
+  @@map("email_logs")
+}
+
+enum EmailStatus {
+  sent
+  failed
+  retrying
+}
+
+// ─────────────────────────────────────────────────────────────
+// WEBHOOK LOGS (raw incoming webhook payloads for debugging)
+// ─────────────────────────────────────────────────────────────
+model WebhookLog {
+  id        String        @id @default(cuid())
+  source    String // "shopify" | "shiprocket"
+  topic     String // e.g. "orders/paid", "shipment_status"
+  payload   Json
+  status    WebhookStatus @default(received)
+  error     String?
+  createdAt DateTime      @default(now()) @map("created_at")
+
+  @@index([source])
+  @@index([topic])
+  @@index([status])
+  @@map("webhook_logs")
+}
+
+enum WebhookStatus {
+  received
+  processed
+  error
+}

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="x-apple-disable-message-reformatting" />
+  <meta name="format-detection" content="telephone=no,address=no,email=no,date=no,url=no" />
+  <title>Order Confirmed! — {{storeName}}</title>
+  <!--[if mso]>
+  <noscript><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml></noscript>
+  <![endif]-->
+</head>
+<body style="margin:0;padding:0;background-color:#F4F4F8;font-family:Arial,Helvetica,sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;">
+
+  <!-- Preheader -->
+  <div style="display:none;font-size:1px;color:#F4F4F8;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;">Thanks for your order! &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847;</div>
+
+  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#F4F4F8;">
+    <tr>
+      <td align="center" style="padding:32px 16px;">
+
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="600" style="max-width:600px;width:100%;background-color:#FFFFFF;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(79,70,229,0.10);">
+
+          <!-- HEADER -->
+          <tr>
+            <td align="center" style="background:linear-gradient(135deg,#4F46E5 0%,#7C3AED 100%);padding:40px 40px 32px 40px;">
+              <a href="{{storeUrl}}" target="_blank" style="text-decoration:none;">
+                <img src="{{storeLogoUrl}}" alt="{{storeName}}" width="140" style="max-width:140px;height:auto;display:block;margin:0 auto 16px auto;" onerror="this.style.display='none'" />
+              </a>
+              <div style="font-size:52px;margin-bottom:12px;">&#127881;</div>
+              <h1 style="margin:0 0 10px 0;font-size:30px;font-weight:800;color:#FFFFFF;line-height:1.2;letter-spacing:-0.5px;">Order Confirmed!</h1>
+              <p style="margin:0;font-size:15px;color:rgba(255,255,255,0.88);line-height:1.6;">Thank you for shopping with {{storeName}}. We&#39;ve got your order!</p>
+            </td>
+          </tr>
+
+          <!-- ORDER NUMBER BADGE -->
+          <tr>
+            <td align="center" style="padding:32px 40px 0 40px;">
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+                <tr>
+                  <td align="center" style="background:linear-gradient(135deg,#EDE9FE 0%,#F5F3FF 100%);border-radius:12px;padding:16px 32px;border:1px solid #DDD6FE;">
+                    <p style="margin:0 0 4px 0;font-size:12px;font-weight:700;color:#9CA3AF;text-transform:uppercase;letter-spacing:1.2px;">Order Number</p>
+                    <p style="margin:0;font-size:24px;font-weight:900;color:#4F46E5;letter-spacing:1px;">{{orderNumber}}</p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- GREETING -->
+          <tr>
+            <td style="padding:28px 40px 0 40px;">
+              <p style="margin:0 0 12px 0;font-size:18px;color:#1E1B4B;font-weight:700;">Hi {{customerName}}! &#127881;</p>
+              <p style="margin:0;font-size:15px;color:#6B7280;line-height:1.75;">Your order has been received and is now being processed. We&#39;re working hard to get your items ready for shipment. You&#39;ll receive another email as soon as your order ships.</p>
+            </td>
+          </tr>
+
+          <!-- DIVIDER -->
+          <tr>
+            <td style="padding:28px 40px 0 40px;">
+              <div style="border-top:2px dashed #E5E7EB;"></div>
+            </td>
+          </tr>
+
+          <!-- ORDER SUMMARY -->
+          <tr>
+            <td style="padding:24px 40px 0 40px;">
+              <p style="margin:0 0 18px 0;font-size:12px;font-weight:700;color:#9CA3AF;text-transform:uppercase;letter-spacing:1.2px;">&#128204; Order Summary</p>
+
+              <!-- Items table header -->
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                <tr>
+                  <td style="padding:10px 12px;background-color:#F3F4F6;border-radius:8px 8px 0 0;">
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                      <tr>
+                        <td style="font-size:11px;font-weight:700;color:#6B7280;text-transform:uppercase;letter-spacing:0.8px;">Item</td>
+                        <td align="center" width="60" style="font-size:11px;font-weight:700;color:#6B7280;text-transform:uppercase;letter-spacing:0.8px;">Qty</td>
+                        <td align="right" width="80" style="font-size:11px;font-weight:700;color:#6B7280;text-transform:uppercase;letter-spacing:0.8px;">Price</td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              {{#each lineItems}}
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="border-left:1px solid #E5E7EB;border-right:1px solid #E5E7EB;border-bottom:1px solid #E5E7EB;">
+                <tr>
+                  <td style="padding:14px 12px;vertical-align:middle;">
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                      <tr>
+                        <td width="56" style="vertical-align:middle;padding-right:12px;">
+                          <img src="{{this.imageUrl}}" alt="{{this.name}}" width="48" height="48" style="width:48px;height:48px;object-fit:cover;border-radius:6px;display:block;border:1px solid #E5E7EB;" />
+                        </td>
+                        <td style="vertical-align:middle;">
+                          <p style="margin:0;font-size:14px;font-weight:600;color:#1E1B4B;line-height:1.3;">{{this.name}}</p>
+                        </td>
+                        <td align="center" width="60" style="vertical-align:middle;">
+                          <p style="margin:0;font-size:14px;font-weight:600;color:#6B7280;">{{this.quantity}}</p>
+                        </td>
+                        <td align="right" width="80" style="vertical-align:middle;">
+                          <p style="margin:0;font-size:14px;font-weight:700;color:#4F46E5;white-space:nowrap;">{{this.price}}</p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+              {{/each}}
+
+              <!-- TOTAL ROW -->
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin-top:0;">
+                <tr>
+                  <td style="padding:16px 12px;background:linear-gradient(135deg,#EDE9FE 0%,#F5F3FF 100%);border-radius:0 0 8px 8px;border:1px solid #DDD6FE;border-top:2px solid #C4B5FD;">
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                      <tr>
+                        <td style="font-size:15px;font-weight:700;color:#1E1B4B;">Order Total</td>
+                        <td align="right" style="font-size:20px;font-weight:800;color:#4F46E5;white-space:nowrap;">{{orderTotal}}</td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- SHIPPING + DELIVERY -->
+          <tr>
+            <td style="padding:24px 40px 0 40px;">
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                <tr>
+                  <!-- SHIPPING ADDRESS -->
+                  <td width="50%" style="padding-right:10px;vertical-align:top;">
+                    <div style="background-color:#F9F9FC;border-radius:12px;padding:18px;border:1px solid #EEF0F7;">
+                      <p style="margin:0 0 8px 0;font-size:12px;font-weight:700;color:#9CA3AF;text-transform:uppercase;letter-spacing:1px;">&#128205; Ship To</p>
+                      <p style="margin:0;font-size:13px;color:#374151;line-height:1.65;">{{shippingAddress}}</p>
+                    </div>
+                  </td>
+                  <!-- ESTIMATED DELIVERY -->
+                  <td width="50%" style="padding-left:10px;vertical-align:top;">
+                    <div style="background-color:#F9F9FC;border-radius:12px;padding:18px;border:1px solid #EEF0F7;">
+                      <p style="margin:0 0 8px 0;font-size:12px;font-weight:700;color:#9CA3AF;text-transform:uppercase;letter-spacing:1px;">&#128336; Est. Delivery</p>
+                      <p style="margin:0;font-size:14px;font-weight:700;color:#1E1B4B;line-height:1.65;">{{estimatedDelivery}}</p>
+                      <p style="margin:4px 0 0 0;font-size:12px;color:#9CA3AF;">from order date</p>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- CTA -->
+          <tr>
+            <td align="center" style="padding:36px 40px 12px 40px;">
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+                <tr>
+                  <td align="center" style="background-color:#4F46E5;border-radius:10px;box-shadow:0 6px 20px rgba(79,70,229,0.40);">
+                    <a href="{{orderUrl}}" target="_blank" style="display:inline-block;padding:17px 44px;font-size:16px;font-weight:800;color:#FFFFFF;text-decoration:none;letter-spacing:0.3px;white-space:nowrap;">&#128204;&nbsp;&nbsp;View Your Order</a>
+                  </td>
+                </tr>
+              </table>
+              <p style="margin:14px 0 0 0;font-size:13px;color:#9CA3AF;">Track status and manage your order anytime</p>
+            </td>
+          </tr>
+
+          <!-- WHAT'S NEXT -->
+          <tr>
+            <td style="padding:0 40px 32px 40px;">
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#F9F9FC;border-radius:12px;padding:0;border:1px solid #EEF0F7;">
+                <tr>
+                  <td style="padding:20px 22px;">
+                    <p style="margin:0 0 14px 0;font-size:13px;font-weight:700;color:#1E1B4B;text-transform:uppercase;letter-spacing:0.8px;">&#128640; What happens next?</p>
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                      <tr>
+                        <td style="padding:4px 0;">
+                          <p style="margin:0;font-size:13px;color:#6B7280;line-height:1.6;"><span style="color:#4F46E5;font-weight:700;">1.</span>&nbsp; We&#39;ll prepare and pack your order carefully.</p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding:4px 0;">
+                          <p style="margin:0;font-size:13px;color:#6B7280;line-height:1.6;"><span style="color:#4F46E5;font-weight:700;">2.</span>&nbsp; You&#39;ll get a shipping confirmation with tracking info.</p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding:4px 0;">
+                          <p style="margin:0;font-size:13px;color:#6B7280;line-height:1.6;"><span style="color:#4F46E5;font-weight:700;">3.</span>&nbsp; Your order will arrive within {{estimatedDelivery}}.</p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- FOOTER -->
+          <tr>
+            <td style="background-color:#F9F9FC;border-top:1px solid #F0F0F7;padding:24px 40px;border-radius:0 0 16px 16px;">
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                <tr>
+                  <td align="center">
+                    <p style="margin:0 0 6px 0;font-size:13px;font-weight:700;">
+                      <a href="{{storeUrl}}" target="_blank" style="color:#4F46E5;text-decoration:none;">{{storeName}}</a>
+                    </p>
+                    <p style="margin:0 0 8px 0;font-size:12px;color:#9CA3AF;">Questions? <a href="mailto:{{storeSupportEmail}}" style="color:#4F46E5;text-decoration:none;">{{storeSupportEmail}}</a></p>
+                    <p style="margin:0 0 10px 0;font-size:12px;color:#9CA3AF;line-height:1.6;">{{storeAddress}}</p>
+                    <p style="margin:0;font-size:12px;color:#9CA3AF;">
+                      <a href="{{unsubscribeUrl}}" target="_blank" style="color:#9CA3AF;text-decoration:underline;">Unsubscribe</a> from order emails
+                    </p>
+                    <p style="margin:10px 0 0 0;font-size:11px;color:#C4C4D0;">&copy; {{currentYear}} {{storeName}}. All rights reserved.</p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Email Automation — Admin Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ── NAVIGATION ── -->
+  <nav class="navbar" role="banner">
+    <div class="nav-inner">
+      <div class="nav-brand">
+        <div class="nav-logo" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <rect width="28" height="28" rx="8" fill="url(#logoGrad)"/>
+            <path d="M8 14l4 4 8-8" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <defs>
+              <linearGradient id="logoGrad" x1="0" y1="0" x2="28" y2="28" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#6366F1"/>
+                <stop offset="100%" stop-color="#8B5CF6"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div class="nav-titles">
+          <span class="nav-title">Email Automation</span>
+          <span class="nav-subtitle">Shopify × Shiprocket</span>
+        </div>
+      </div>
+
+      <div class="nav-right">
+        <div class="nav-status">
+          <span class="status-dot" id="statusDot" title="Live connection"></span>
+          <span class="status-label">Live</span>
+        </div>
+        <div class="nav-clock" id="liveClock" aria-live="polite" aria-atomic="true">--:--:--</div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── MAIN CONTENT ── -->
+  <main class="main-content" role="main">
+
+    <!-- ── STATS ROW ── -->
+    <section class="stats-section" aria-label="Summary statistics">
+      <div class="stats-grid">
+
+        <div class="stat-card stat-sent" tabindex="0">
+          <div class="stat-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+            </svg>
+          </div>
+          <div class="stat-body">
+            <p class="stat-label">Total Sent</p>
+            <p class="stat-value" id="stat-sent">—</p>
+          </div>
+          <div class="stat-bg-icon" aria-hidden="true">✉</div>
+        </div>
+
+        <div class="stat-card stat-failed" tabindex="0">
+          <div class="stat-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>
+            </svg>
+          </div>
+          <div class="stat-body">
+            <p class="stat-label">Total Failed</p>
+            <p class="stat-value" id="stat-failed">—</p>
+          </div>
+          <div class="stat-bg-icon" aria-hidden="true">✕</div>
+        </div>
+
+        <div class="stat-card stat-carts" tabindex="0">
+          <div class="stat-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+            </svg>
+          </div>
+          <div class="stat-body">
+            <p class="stat-label">Active Carts</p>
+            <p class="stat-value" id="stat-carts">—</p>
+          </div>
+          <div class="stat-bg-icon" aria-hidden="true">🛒</div>
+        </div>
+
+        <div class="stat-card stat-recovered" tabindex="0">
+          <div class="stat-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/>
+            </svg>
+          </div>
+          <div class="stat-body">
+            <p class="stat-label">Recovered</p>
+            <p class="stat-value" id="stat-recovered">—</p>
+          </div>
+          <div class="stat-bg-icon" aria-hidden="true">↑</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── TABS ── -->
+    <section class="tabs-section" aria-label="Data tabs">
+      <div class="tabs-header">
+        <nav class="tab-nav" role="tablist" aria-label="Dashboard sections">
+          <button class="tab-btn active" id="tab-email-logs" role="tab" aria-selected="true" aria-controls="panel-email-logs" data-tab="email-logs">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Email Logs
+          </button>
+          <button class="tab-btn" id="tab-abandoned-carts" role="tab" aria-selected="false" aria-controls="panel-abandoned-carts" data-tab="abandoned-carts">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+            </svg>
+            Abandoned Carts
+          </button>
+          <button class="tab-btn" id="tab-webhook-logs" role="tab" aria-selected="false" aria-controls="panel-webhook-logs" data-tab="webhook-logs">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+            </svg>
+            Webhook Logs
+          </button>
+        </nav>
+        <button class="refresh-btn" id="refreshBtn" title="Refresh data" aria-label="Refresh data">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="23 4 23 10 17 10"/>
+            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+          </svg>
+          Refresh
+        </button>
+      </div>
+
+      <!-- ── EMAIL LOGS PANEL ── -->
+      <div class="tab-panel active" id="panel-email-logs" role="tabpanel" aria-labelledby="tab-email-logs">
+        <div class="filter-bar">
+          <div class="filter-group">
+            <label class="filter-label" for="filter-email-type">Email Type</label>
+            <select class="filter-select" id="filter-email-type" aria-label="Filter by email type">
+              <option value="all">All Types</option>
+              <option value="abandoned_cart_1">Abandoned Cart #1</option>
+              <option value="abandoned_cart_2">Abandoned Cart #2</option>
+              <option value="order_confirmation">Order Confirmation</option>
+              <option value="shipped">Shipped</option>
+              <option value="out_for_delivery">Out for Delivery</option>
+              <option value="delivered">Delivered</option>
+              <option value="refund">Refund</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label class="filter-label" for="filter-status">Status</label>
+            <select class="filter-select" id="filter-status" aria-label="Filter by status">
+              <option value="all">All Statuses</option>
+              <option value="sent">Sent</option>
+              <option value="failed">Failed</option>
+              <option value="retrying">Retrying</option>
+            </select>
+          </div>
+          <button class="apply-filter-btn" id="applyFilter">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+            </svg>
+            Apply
+          </button>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="data-table" id="email-logs-table" aria-label="Email logs">
+            <thead>
+              <tr>
+                <th scope="col">Email Type</th>
+                <th scope="col">Recipient</th>
+                <th scope="col">Status</th>
+                <th scope="col">Sent At</th>
+                <th scope="col">Attempts</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="email-logs-body">
+            </tbody>
+          </table>
+        </div>
+        <div class="empty-state hidden" id="email-logs-empty">
+          <div class="empty-icon">📭</div>
+          <p class="empty-title">No email logs found</p>
+          <p class="empty-sub">Logs will appear here once emails start sending.</p>
+        </div>
+        <div class="pagination" id="email-logs-pagination" aria-label="Email logs pagination"></div>
+      </div>
+
+      <!-- ── ABANDONED CARTS PANEL ── -->
+      <div class="tab-panel hidden" id="panel-abandoned-carts" role="tabpanel" aria-labelledby="tab-abandoned-carts">
+        <div class="table-wrapper">
+          <table class="data-table" id="carts-table" aria-label="Abandoned carts">
+            <thead>
+              <tr>
+                <th scope="col">Customer</th>
+                <th scope="col">Items</th>
+                <th scope="col">Total</th>
+                <th scope="col">Status</th>
+                <th scope="col">Last Updated</th>
+                <th scope="col">Time Abandoned</th>
+              </tr>
+            </thead>
+            <tbody id="carts-body">
+            </tbody>
+          </table>
+        </div>
+        <div class="empty-state hidden" id="carts-empty">
+          <div class="empty-icon">🛒</div>
+          <p class="empty-title">No abandoned carts</p>
+          <p class="empty-sub">Carts will appear here when customers abandon checkout.</p>
+        </div>
+        <div class="pagination" id="carts-pagination" aria-label="Abandoned carts pagination"></div>
+      </div>
+
+      <!-- ── WEBHOOK LOGS PANEL ── -->
+      <div class="tab-panel hidden" id="panel-webhook-logs" role="tabpanel" aria-labelledby="tab-webhook-logs">
+        <div class="table-wrapper">
+          <table class="data-table" id="webhook-logs-table" aria-label="Webhook logs">
+            <thead>
+              <tr>
+                <th scope="col">Source</th>
+                <th scope="col">Topic</th>
+                <th scope="col">Status</th>
+                <th scope="col">Received At</th>
+              </tr>
+            </thead>
+            <tbody id="webhook-logs-body">
+            </tbody>
+          </table>
+        </div>
+        <div class="empty-state hidden" id="webhook-logs-empty">
+          <div class="empty-icon">🔗</div>
+          <p class="empty-title">No webhook logs</p>
+          <p class="empty-sub">Incoming webhooks will be logged here.</p>
+        </div>
+        <div class="pagination" id="webhook-logs-pagination" aria-label="Webhook logs pagination"></div>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- ── RESEND MODAL ── -->
+  <div class="modal-overlay hidden" id="resendModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-box">
+      <div class="modal-icon" aria-hidden="true">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+      </div>
+      <h2 class="modal-title" id="modalTitle">Resend Email</h2>
+      <p class="modal-body">Are you sure you want to resend this email? A new delivery attempt will be triggered immediately.</p>
+      <div class="modal-actions">
+        <button class="modal-cancel" id="modalCancel">Cancel</button>
+        <button class="modal-confirm" id="modalConfirm">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+          Resend Now
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TOAST CONTAINER ── -->
+  <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="false" role="status"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

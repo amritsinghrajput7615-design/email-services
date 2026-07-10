@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your order is on its way! 🚚</title>
+</head>
+<body style="margin:0;padding:0;background-color:#F0F0F7;font-family:Arial,Helvetica,sans-serif;">
+  <div style="display:none;max-height:0;overflow:hidden;">Your package is heading your way — track it live now!</div>
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#F0F0F7;padding:32px 0;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(79,70,229,0.1);">
+          <!-- HEADER -->
+          <tr>
+            <td style="background:linear-gradient(135deg,#6366F1 0%,#4F46E5 100%);padding:40px 48px;text-align:center;">
+              {{#if storeLogoUrl}}<img src="{{storeLogoUrl}}" alt="{{storeName}}" width="140" style="display:block;margin:0 auto 20px;max-height:60px;object-fit:contain;">{{else}}<div style="font-size:26px;font-weight:700;color:#ffffff;margin-bottom:16px;">{{storeName}}</div>{{/if}}
+              <div style="font-size:48px;margin-bottom:8px;">🚚</div>
+              <h1 style="margin:0;color:#ffffff;font-size:28px;font-weight:700;line-height:1.3;">Your order is on its way!</h1>
+              <p style="margin:10px 0 0;color:rgba(255,255,255,0.85);font-size:15px;">Order {{orderNumber}} has been shipped</p>
+            </td>
+          </tr>
+          <!-- BODY -->
+          <tr>
+            <td style="padding:40px 48px;">
+              <p style="margin:0 0 24px;font-size:16px;color:#555;line-height:1.7;">Hi <strong>{{#if customerName}}{{customerName}}{{else}}there{{/if}}</strong>, great news! Your order is now on its way. Here's how to track it:</p>
+
+              <!-- TRACKING BOX -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:32px;">
+                <tr>
+                  <td style="background:#F0F0FF;border-radius:12px;padding:24px;text-align:center;">
+                    <p style="margin:0 0 4px;font-size:13px;color:#6366F1;font-weight:600;text-transform:uppercase;letter-spacing:1px;">Tracking Number (AWB)</p>
+                    <p style="margin:0 0 16px;font-size:22px;font-weight:800;color:#1a1a2e;letter-spacing:2px;">{{awbCode}}</p>
+                    {{#if courierName}}<p style="margin:0 0 12px;font-size:14px;color:#666;">Courier: <strong>{{courierName}}</strong></p>{{/if}}
+                    {{#if estimatedDelivery}}<p style="margin:0;font-size:14px;color:#666;">Estimated Delivery: <strong>{{estimatedDelivery}}</strong></p>{{/if}}
+                  </td>
+                </tr>
+              </table>
+
+              <!-- SHIPPING STATUS BAR -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:32px;">
+                <tr>
+                  <td>
+                    <p style="margin:0 0 16px;font-size:14px;font-weight:600;color:#555;text-transform:uppercase;letter-spacing:0.5px;">Shipment Progress</p>
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <!-- Step 1: Shipped (ACTIVE) -->
+                        <td width="33%" style="text-align:center;vertical-align:top;">
+                          <div style="width:40px;height:40px;border-radius:50%;background:#4F46E5;margin:0 auto 8px;display:flex;align-items:center;justify-content:center;color:white;font-size:16px;line-height:40px;">✓</div>
+                          <p style="margin:0;font-size:12px;font-weight:700;color:#4F46E5;">Shipped</p>
+                        </td>
+                        <!-- Connector -->
+                        <td style="vertical-align:top;padding-top:20px;">
+                          <div style="height:2px;background:linear-gradient(to right,#4F46E5,#e0e0e0);border-radius:2px;"></div>
+                        </td>
+                        <!-- Step 2: Out for Delivery -->
+                        <td width="33%" style="text-align:center;vertical-align:top;">
+                          <div style="width:40px;height:40px;border-radius:50%;background:#e0e7ff;border:2px solid #6366F1;margin:0 auto 8px;line-height:36px;font-size:16px;">📦</div>
+                          <p style="margin:0;font-size:12px;color:#999;">Out for Delivery</p>
+                        </td>
+                        <!-- Connector -->
+                        <td style="vertical-align:top;padding-top:20px;">
+                          <div style="height:2px;background:#e0e0e0;border-radius:2px;"></div>
+                        </td>
+                        <!-- Step 3: Delivered -->
+                        <td width="33%" style="text-align:center;vertical-align:top;">
+                          <div style="width:40px;height:40px;border-radius:50%;background:#f0f0f0;margin:0 auto 8px;line-height:40px;font-size:16px;">🏠</div>
+                          <p style="margin:0;font-size:12px;color:#999;">Delivered</p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- ORDER ITEMS -->
+              {{#if lineItems}}
+              <p style="margin:0 0 12px;font-size:14px;font-weight:600;color:#555;text-transform:uppercase;letter-spacing:0.5px;">Items Shipped</p>
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:28px;">
+                {{#each lineItems}}
+                <tr>
+                  <td style="padding:8px 0;border-bottom:1px solid #f5f5f5;font-size:14px;color:#333;">{{name}} <span style="color:#999;">x{{quantity}}</span></td>
+                </tr>
+                {{/each}}
+              </table>
+              {{/if}}
+
+              <!-- CTA -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td align="center">
+                    <a href="{{trackingUrl}}" style="display:inline-block;background:linear-gradient(135deg,#4F46E5,#6366F1);color:#ffffff;font-size:17px;font-weight:700;text-decoration:none;padding:16px 48px;border-radius:50px;">Track Your Package &rarr;</a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <!-- FOOTER -->
+          <tr>
+            <td style="background:#F8F7FF;padding:28px 48px;border-top:1px solid #E8E6FF;text-align:center;">
+              <p style="margin:0 0 8px;font-size:13px;color:#888;">Questions about your shipment? <a href="mailto:{{storeSupportEmail}}" style="color:#4F46E5;text-decoration:none;">{{storeSupportEmail}}</a></p>
+              <p style="margin:0 0 12px;font-size:12px;color:#aaa;">{{storeAddress}}</p>
+              <p style="margin:0 0 8px;font-size:12px;color:#bbb;">You're receiving this because you placed an order at <a href="{{storeUrl}}" style="color:#4F46E5;text-decoration:none;">{{storeName}}</a>.</p>
+              <p style="margin:0 0 4px;font-size:12px;"><a href="{{unsubscribeUrl}}" style="color:#bbb;">Unsubscribe</a></p>
+              <p style="margin:0;font-size:12px;color:#ccc;">&copy; {{currentYear}} {{storeName}}. All rights reserved.</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
