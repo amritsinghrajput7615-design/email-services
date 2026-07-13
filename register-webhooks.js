@@ -16,14 +16,13 @@ require('dotenv').config();
 const https = require('https');
 const http = require('http');
 
-const {
-  SHOPIFY_STORE_DOMAIN,
-  SHOPIFY_API_SECRET,
-  APP_URL,
-} = process.env;
+const SHOPIFY_STORE_DOMAIN = process.env.SHOPIFY_STORE_DOMAIN || '';
+const APP_URL = process.env.APP_URL || '';
+// Use Admin API Access Token (shpat_...) — NOT the client secret (shpss_...)
+const SHOPIFY_ACCESS_TOKEN = process.env.SHOPIFY_ADMIN_ACCESS_TOKEN || process.env.SHOPIFY_API_SECRET || '';
 
-if (!SHOPIFY_STORE_DOMAIN || !SHOPIFY_API_SECRET || !APP_URL) {
-  console.error('❌ Missing required env vars: SHOPIFY_STORE_DOMAIN, SHOPIFY_API_SECRET, APP_URL');
+if (!SHOPIFY_STORE_DOMAIN || !SHOPIFY_ACCESS_TOKEN || !APP_URL) {
+  console.error('❌ Missing required env vars: SHOPIFY_STORE_DOMAIN, SHOPIFY_ADMIN_ACCESS_TOKEN, APP_URL');
   process.exit(1);
 }
 
@@ -53,7 +52,7 @@ async function shopifyRequest(method, path, body) {
       method,
       headers: {
         'Content-Type': 'application/json',
-        'X-Shopify-Access-Token': SHOPIFY_API_SECRET,
+        'X-Shopify-Access-Token': SHOPIFY_ACCESS_TOKEN,
         ...(bodyStr ? { 'Content-Length': Buffer.byteLength(bodyStr) } : {}),
       },
     }, (res) => {

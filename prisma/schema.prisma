@@ -26,15 +26,16 @@ model Customer {
 }
 
 // ─────────────────────────────────────────────────────────────
-// CHECKOUTS (cart / checkout sessions from Shopify)
+// CHECKOUTS (cart / checkout sessions from Shopify or Fastrr)
 // ─────────────────────────────────────────────────────────────
 model Checkout {
-  id             String         @id // Shopify checkout token
+  id             String         @id // Checkout token / cart ID
   customerEmail  String         @map("customer_email")
   cartItems      Json           @map("cart_items") // Array of {name, price, quantity, imageUrl, variantId}
   totalPrice     String         @default("0") @map("total_price")
   currency       String         @default("INR")
-  checkoutUrl    String?        @map("checkout_url") // Shopify abandoned_checkout_url
+  checkoutUrl    String?        @map("checkout_url") // Resume / abandoned checkout URL
+  source         String         @default("shopify") // "shopify" | "fastrr"
   status         CheckoutStatus @default(active)
   reminder1JobId String?        @map("reminder1_job_id") // BullMQ job ID
   reminder2JobId String?        @map("reminder2_job_id") // BullMQ job ID
@@ -47,6 +48,7 @@ model Checkout {
 
   @@index([customerEmail])
   @@index([status])
+  @@index([source])
   @@map("checkouts")
 }
 
@@ -146,7 +148,7 @@ enum EmailStatus {
 // ─────────────────────────────────────────────────────────────
 model WebhookLog {
   id        String        @id @default(cuid())
-  source    String // "shopify" | "shiprocket"
+  source    String // "shopify" | "shiprocket" | "fastrr"
   topic     String // e.g. "orders/paid", "shipment_status"
   payload   Json
   status    WebhookStatus @default(received)

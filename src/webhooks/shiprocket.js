@@ -10,11 +10,13 @@ const router = express.Router();
 
 async function logWebhook(topic, payload, status = 'received', error = null) {
   try {
-    await prisma.webhookLog.create({
+    const log = await prisma.webhookLog.create({
       data: { source: 'shiprocket', topic, payload, status, error },
     });
+    return log; // Return the created row so callers can use log.id directly
   } catch (err) {
     logger.error('Failed to write Shiprocket webhook log', { error: err.message });
+    return null;
   }
 }
 
@@ -45,16 +47,12 @@ router.post('/', express.json(), async (req, res) => {
   // Acknowledge immediately
   res.status(200).json({ received: true });
 
-  await logWebhook(topic, payload);
+  const log = await logWebhook(topic, payload);
 
   try {
     await handleShiprocketWebhook(payload);
 
-    // Update log to processed
-    const log = await prisma.webhookLog.findFirst({
-      where: { source: 'shiprocket', topic },
-      orderBy: { createdAt: 'desc' },
-    });
+    // Update log to processed using the ID returned from logWebhook (avoids race condition)
     if (log) {
       await prisma.webhookLog.update({
         where: { id: log.id },
@@ -63,10 +61,6 @@ router.post('/', express.json(), async (req, res) => {
     }
   } catch (err) {
     logger.error('Error processing Shiprocket webhook', { error: err.message, stack: err.stack });
-    const log = await prisma.webhookLog.findFirst({
-      where: { source: 'shiprocket', topic },
-      orderBy: { createdAt: 'desc' },
-    });
     if (log) {
       await prisma.webhookLog.update({
         where: { id: log.id },

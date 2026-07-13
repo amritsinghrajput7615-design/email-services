@@ -9,42 +9,40 @@ const logger = require('../utils/logger');
 /**
  * Upserts a checkout record in the database and reschedules the abandoned cart reminder.
  *
- * Called when Shopify fires `checkouts/create` or `checkouts/update`.
+ * Accepts a **normalized** checkout object so it can be called from any webhook source
+ * (Shopify `checkouts/create` / `checkouts/update`, Fastrr abandoned-cart, etc.)
+ * without being coupled to any particular raw payload shape. The caller is responsible
+ * for extracting and normalizing fields before calling this function.
  *
- * @param {object} shopifyCheckout - Raw Shopify checkout object
+ * @param {object} normalized
+ * @param {string}   normalized.checkoutId   - Unique checkout/cart ID (Shopify token, Fastrr cart ID, etc.)
+ * @param {string}   normalized.email        - Customer email address
+ * @param {object[]} normalized.cartItems    - Array of { name, price, quantity, sku, imageUrl, variantId?, productId? }
+ * @param {string}   normalized.totalPrice   - Cart total as a string
+ * @param {string}   normalized.currency     - ISO currency code (default: 'INR')
+ * @param {string|null} normalized.checkoutUrl - Resume / abandoned checkout URL
+ * @param {string}   normalized.source       - Originating source: 'shopify' | 'fastrr'
  */
-async function handleCheckoutEvent(shopifyCheckout) {
+async function handleCheckoutEvent(normalized) {
   const {
-    id,
-    token,
+    checkoutId,
     email,
-    line_items = [],
-    total_price,
-    currency,
-    abandoned_checkout_url,
-    created_at,
-    updated_at,
-  } = shopifyCheckout;
-
-  // Shopify checkout ID can be numeric; use token if available, else id
-  const checkoutId = String(token || id);
+    cartItems = [],
+    totalPrice = '0',
+    currency = 'INR',
+    checkoutUrl = null,
+    source = 'shopify',
+  } = normalized;
 
   if (!email) {
-    logger.debug('Skipping checkout with no email', { checkoutId });
+    logger.debug('Skipping checkout with no email', { checkoutId, source });
     return;
   }
 
-  // Normalize cart items
-  const cartItems = line_items.map((item) => ({
-    name: item.title || item.name,
-    variantTitle: item.variant_title,
-    price: item.price,
-    quantity: item.quantity,
-    sku: item.sku,
-    imageUrl: item.image_url || item.image?.src || '',
-    variantId: item.variant_id,
-    productId: item.product_id,
-  }));
+  if (!checkoutId) {
+    logger.warn('Skipping checkout with no ID', { email, source });
+    return;
+  }
 
   // Ensure customer exists (upsert)
   await prisma.customer.upsert({
@@ -53,36 +51,55 @@ async function handleCheckoutEvent(shopifyCheckout) {
     update: {},
   });
 
-  // Upsert the checkout record
+  // Skip if checkout was already converted (e.g. order placed during rapid Shopify updates)
   const existingCheckout = await prisma.checkout.findUnique({ where: { id: checkoutId } });
 
   if (existingCheckout?.status === 'converted') {
-    logger.debug('Ignoring update for converted checkout', { checkoutId });
+    logger.debug('Ignoring update for converted checkout', { checkoutId, source });
     return;
   }
 
+  // Upsert the checkout record
   await prisma.checkout.upsert({
     where: { id: checkoutId },
     create: {
       id: checkoutId,
       customerEmail: email,
       cartItems,
-      totalPrice: String(total_price || '0'),
-      currency: currency || 'INR',
-      checkoutUrl: abandoned_checkout_url || null,
+      totalPrice: String(totalPrice),
+      currency,
+      checkoutUrl,
+      source,
       status: 'active',
     },
     update: {
       customerEmail: email,
       cartItems,
-      totalPrice: String(total_price || '0'),
-      currency: currency || 'INR',
-      checkoutUrl: abandoned_checkout_url || null,
+      totalPrice: String(totalPrice),
+      currency,
+      checkoutUrl,
+      source,
       status: 'active', // Reset to active on update (customer came back)
     },
   });
 
-  logger.info('Checkout upserted', { checkoutId, email });
+  logger.info('Checkout upserted', { checkoutId, email, source });
+
+  // ─── Timer-reset behavior ─────────────────────────────────────────────────
+  // We cancel the existing reminder job and schedule a fresh one every time
+  // this function is called. This keeps the reminder window relative to the
+  // LAST activity (good: catches customers who keep returning but haven't
+  // completed checkout). The downside is that a customer who types slowly into
+  // checkout fields may keep pushing the reminder back indefinitely.
+  //
+  // For Shopify this is called on every checkouts/create + checkouts/update.
+  // For Fastrr this is typically called once per webhook POST (Fastrr batches
+  // its abandoned-cart events), so repeated deferrals are less of a concern there.
+  //
+  // If you want to change this: only reschedule when cartItems actually changed,
+  // or only reschedule if the existing job's remaining delay is below a minimum
+  // threshold (e.g. 30 minutes).
+  // ─────────────────────────────────────────────────────────────────────────
 
   // Cancel any existing reminder jobs (reset the timer on each update)
   await cancelAbandonedCartReminders(checkoutId);
@@ -94,7 +111,7 @@ async function handleCheckoutEvent(shopifyCheckout) {
     config.cart.reminder1DelayMs
   );
 
-  // Save the job ID so we can cancel it later
+  // Save the job ID so we can cancel it later if the order is placed
   await prisma.checkout.update({
     where: { id: checkoutId },
     data: { reminder1JobId: reminder1Job.id },

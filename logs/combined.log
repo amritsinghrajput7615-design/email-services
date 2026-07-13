@@ -328,3 +328,15 @@
 {"level":"error","message":"Prisma DB error Error in PostgreSQL connection: Error { kind: Io, cause: Some(Os { code: 10054, kind: ConnectionReset, message: \"An existing connection was forcibly closed by the remote host.\" }) }","target":"quaint::connector::postgres::native","timestamp":"2026-07-09 18:06:39"}
 {"level":"error","message":"Prisma DB error Error in PostgreSQL connection: Error { kind: Io, cause: Some(Os { code: 10054, kind: ConnectionReset, message: \"An existing connection was forcibly closed by the remote host.\" }) }","target":"quaint::connector::postgres::native","timestamp":"2026-07-09 18:06:39"}
 {"level":"info","message":"Redis connected","timestamp":"2026-07-09 18:06:39"}
+{"level":"info","message":"Redis connected","timestamp":"2026-07-13 12:07:38"}
+{"level":"info","message":"✅ Database connected","timestamp":"2026-07-13 12:07:39"}
+{"cronExpression":"*/30 * * * *","intervalMinutes":30,"level":"info","message":"Starting Shiprocket status poller","timestamp":"2026-07-13 12:07:39"}
+{"level":"info","message":"✅ Shiprocket poller started","timestamp":"2026-07-13 12:07:39"}
+{"level":"info","message":"🚀 Server running on port 3000","timestamp":"2026-07-13 12:07:39"}
+{"level":"info","message":"📊 Dashboard: http://localhost:3000/dashboard","timestamp":"2026-07-13 12:07:39"}
+{"level":"info","message":"🔗 Shopify webhook URL:    https://email-services-ncz3.onrender.com/webhooks/shopify","timestamp":"2026-07-13 12:07:39"}
+{"level":"info","message":"🔗 Shiprocket webhook URL: https://email-services-ncz3.onrender.com/webhooks/shiprocket","timestamp":"2026-07-13 12:07:39"}
+{"level":"info","message":"🔗 Fastrr webhook URL:     https://email-services-ncz3.onrender.com/webhooks/fastrr","timestamp":"2026-07-13 12:07:39"}
+{"level":"info","message":"❤️  Health: http://localhost:3000/health","timestamp":"2026-07-13 12:07:39"}
+{"level":"info","message":"Shiprocket poll: starting status reconciliation...","timestamp":"2026-07-13 12:07:49"}
+{"level":"info","message":"Shiprocket poll: no in-flight orders to check","timestamp":"2026-07-13 12:07:50"}

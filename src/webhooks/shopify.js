@@ -15,11 +15,13 @@ router.use(express.raw({ type: 'application/json' }));
 
 async function logWebhook(source, topic, payload, status = 'received', error = null) {
   try {
-    await prisma.webhookLog.create({
+    const log = await prisma.webhookLog.create({
       data: { source, topic, payload, status, error },
     });
+    return log; // Return the created row so callers can use log.id directly
   } catch (err) {
     logger.error('Failed to write webhook log', { error: err.message });
+    return null;
   }
 }
 
@@ -65,33 +67,25 @@ router.post('/', verifyShopifyHmac, async (req, res) => {
   // Acknowledge immediately — Shopify requires a 200 within 5 seconds
   res.status(200).json({ received: true });
 
-  // Log raw webhook
-  await logWebhook('shopify', topic, payload);
+  // Log raw webhook — returns the created row to avoid a racy re-query later
+  const webhookLog = await logWebhook('shopify', topic, payload);
 
   // Process asynchronously (after responding)
   try {
     await handleShopifyEvent(topic, payload);
-    // Update webhook log to processed
-    const log = await prisma.webhookLog.findFirst({
-      where: { source: 'shopify', topic },
-      orderBy: { createdAt: 'desc' },
-    });
-    if (log) {
+    // Update webhook log to processed using the ID we already have
+    if (webhookLog) {
       await prisma.webhookLog.update({
-        where: { id: log.id },
+        where: { id: webhookLog.id },
         data: { status: 'processed' },
       });
     }
   } catch (err) {
     logger.error('Error processing Shopify webhook', { topic, error: err.message, stack: err.stack });
     // Update webhook log to error
-    const log = await prisma.webhookLog.findFirst({
-      where: { source: 'shopify', topic },
-      orderBy: { createdAt: 'desc' },
-    });
-    if (log) {
+    if (webhookLog) {
       await prisma.webhookLog.update({
-        where: { id: log.id },
+        where: { id: webhookLog.id },
         data: { status: 'error', error: err.message },
       });
     }
@@ -130,9 +124,49 @@ async function handleShopifyEvent(topic, payload) {
 }
 
 // ─── checkouts/create & checkouts/update ─────────────────────
+//
+// Normalize the raw Shopify checkout payload into the source-agnostic shape
+// expected by handleCheckoutEvent, so the service layer stays decoupled from
+// Shopify's raw field names.
+
+function normalizeShopifyCheckout(checkout) {
+  const {
+    id,
+    token,
+    email,
+    line_items = [],
+    total_price,
+    currency,
+    abandoned_checkout_url,
+  } = checkout;
+
+  // Shopify checkout ID can be numeric; prefer token (stable) over id
+  const checkoutId = String(token || id);
+
+  const cartItems = line_items.map((item) => ({
+    name: item.title || item.name,
+    variantTitle: item.variant_title,
+    price: item.price,
+    quantity: item.quantity,
+    sku: item.sku,
+    imageUrl: item.image_url || item.image?.src || '',
+    variantId: item.variant_id,
+    productId: item.product_id,
+  }));
+
+  return {
+    checkoutId,
+    email,
+    cartItems,
+    totalPrice: String(total_price || '0'),
+    currency: currency || 'INR',
+    checkoutUrl: abandoned_checkout_url || null,
+    source: 'shopify',
+  };
+}
 
 async function handleCheckout(checkout) {
-  await handleCheckoutEvent(checkout);
+  await handleCheckoutEvent(normalizeShopifyCheckout(checkout));
 }
 
 // ─── orders/create ────────────────────────────────────────────

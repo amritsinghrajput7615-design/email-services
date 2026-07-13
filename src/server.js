@@ -36,6 +36,24 @@ app.get('/health', (req, res) => {
 // Note: Shopify webhook route uses express.raw() internally
 app.use('/webhooks/shopify', require('./webhooks/shopify'));
 app.use('/webhooks/shiprocket', require('./webhooks/shiprocket'));
+app.use('/webhooks/fastrr', require('./webhooks/fastrr'));
+
+// ─── Root route ────────────────────────────────────────────────
+// Returns a JSON status payload instead of 404-ing — Shopify's embedded app
+// iframe and health monitors hit GET / directly.
+app.get('/', (req, res) => {
+  res.json({
+    service: 'shopify-email-automation',
+    status: 'ok',
+    dashboard: '/dashboard',
+    health: '/health',
+    webhooks: {
+      shopify: '/webhooks/shopify',
+      shiprocket: '/webhooks/shiprocket',
+      fastrr: '/webhooks/fastrr',
+    },
+  });
+});
 
 // ─── Admin API ─────────────────────────────────────────────────
 app.use('/api/admin', require('./routes/admin'));
@@ -68,8 +86,9 @@ async function start() {
     app.listen(config.port, () => {
       logger.info(`🚀 Server running on port ${config.port}`);
       logger.info(`📊 Dashboard: http://localhost:${config.port}/dashboard`);
-      logger.info(`🔗 Shopify webhook URL: ${config.appUrl}/webhooks/shopify`);
+      logger.info(`🔗 Shopify webhook URL:    ${config.appUrl}/webhooks/shopify`);
       logger.info(`🔗 Shiprocket webhook URL: ${config.appUrl}/webhooks/shiprocket`);
+      logger.info(`🔗 Fastrr webhook URL:     ${config.appUrl}/webhooks/fastrr`);
       logger.info(`❤️  Health: http://localhost:${config.port}/health`);
     });
   } catch (err) {

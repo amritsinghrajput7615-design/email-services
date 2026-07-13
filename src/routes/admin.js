@@ -106,9 +106,12 @@ router.get('/abandoned-carts', async (req, res) => {
     const page = Math.max(1, parseInt(req.query.page || '1', 10));
     const limit = Math.min(100, Math.max(1, parseInt(req.query.limit || '20', 10)));
     const skip = (page - 1) * limit;
+    const source = req.query.source || '';
 
     const where = {
       status: { in: ['active', 'abandoned'] },
+      // Optional filter by checkout source ('shopify' | 'fastrr')
+      ...(source && source !== 'all' ? { source } : {}),
     };
 
     const [data, total] = await Promise.all([
@@ -117,6 +120,7 @@ router.get('/abandoned-carts', async (req, res) => {
         orderBy: { updatedAt: 'desc' },
         skip,
         take: limit,
+        // `source` is included automatically as part of the model fields
       }),
       prisma.checkout.count({ where }),
     ]);

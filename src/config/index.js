@@ -69,6 +69,13 @@ const config = {
   dashboard: {
     token: optional('DASHBOARD_TOKEN', ''),
   },
+
+  fastrr: {
+    // Bearer token Fastrr sends in the Authorization header on abandoned-cart webhooks.
+    // Set this to any strong random secret, then configure the same value in the
+    // Fastrr dashboard → Webhooks → Abandoned Cart → Authorization Token.
+    webhookToken: optional('FASTRR_WEBHOOK_TOKEN', ''),
+  },
 };
 
 module.exports = config;
