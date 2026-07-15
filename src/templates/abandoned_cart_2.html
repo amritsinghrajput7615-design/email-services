@@ -1,127 +1,73 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="x-apple-disable-message-reformatting" />
-  <meta name="format-detection" content="telephone=no,address=no,email=no,date=no,url=no" />
-  <title>Still thinking? Here&#39;s a special offer — {{storeName}}</title>
-  <!--[if mso]>
-  <noscript><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml></noscript>
-  <![endif]-->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>You left something behind</title>
+  <style>
+    @media only screen and (max-width: 600px) {
+      .email-container { width: 100% !important; }
+      .header-title { font-size: 22px !important; }
+    }
+  </style>
 </head>
-<body style="margin:0;padding:0;background-color:#F4F4F8;font-family:Arial,Helvetica,sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;">
-
-  <!-- Preheader -->
-  <div style="display:none;font-size:1px;color:#F4F4F8;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;">We saved your cart + a special offer inside &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847; &#847;</div>
-
-  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#F4F4F8;">
+<body style="margin:0;padding:0;background-color:#FFFFFF;font-family:Arial,Helvetica,sans-serif;">
+  <div style="display:none;max-height:0;overflow:hidden;">Your cart is waiting — complete your purchase.</div>
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#FFFFFF;padding:40px 0;">
     <tr>
-      <td align="center" style="padding:32px 16px;">
+      <td align="center">
+        <table class="email-container" role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;">
 
-        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="600" style="max-width:600px;width:100%;background-color:#FFFFFF;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(79,70,229,0.10);">
-
-          <!-- HEADER -->
+          <!-- STORE NAME -->
           <tr>
-            <td align="center" style="background:linear-gradient(135deg,#4F46E5 0%,#7C3AED 100%);padding:40px 40px 32px 40px;">
-              <a href="{{storeUrl}}" target="_blank" style="text-decoration:none;">
-                <img src="{{storeLogoUrl}}" alt="{{storeName}}" width="140" style="max-width:140px;height:auto;display:block;margin:0 auto 16px auto;" onerror="this.style.display='none'" />
-              </a>
-              <div style="display:inline-block;background:rgba(255,255,255,0.18);border-radius:50px;padding:8px 20px;margin-bottom:16px;">
-                <span style="font-size:22px;">&#128184;</span>
-              </div>
-              <h1 style="margin:0 0 10px 0;font-size:28px;font-weight:800;color:#FFFFFF;line-height:1.2;letter-spacing:-0.5px;">Still thinking it over?</h1>
-              <p style="margin:0;font-size:15px;color:rgba(255,255,255,0.88);line-height:1.6;">Your cart is waiting — and we&#39;ve got something special for you inside.</p>
+            <td align="center" style="padding-bottom:32px;">
+              {{#if storeLogoUrl}}<img src="{{storeLogoUrl}}" alt="{{storeName}}" width="120" style="display:block;margin:0 auto;max-height:40px;object-fit:contain;">{{else}}<span style="font-size:16px;font-weight:700;color:#111111;letter-spacing:1.5px;">{{storeName}}</span>{{/if}}
             </td>
           </tr>
 
-          <!-- URGENT BANNER -->
+          <!-- TITLE -->
           <tr>
-            <td style="padding:0;">
-              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-                <tr>
-                  <td align="center" style="background-color:#FEF3C7;padding:12px 24px;border-bottom:1px solid #FDE68A;">
-                    <p style="margin:0;font-size:13px;font-weight:700;color:#92400E;">&#9889;&nbsp; Your cart may sell out soon — grab it before it&#39;s gone!</p>
-                  </td>
-                </tr>
-              </table>
+            <td align="center" style="padding-bottom:8px;">
+              <h1 class="header-title" style="margin:0;font-size:24px;font-weight:700;color:#111111;line-height:1.3;">You left something behind</h1>
             </td>
           </tr>
-
-          <!-- GREETING -->
           <tr>
-            <td style="padding:36px 40px 0 40px;">
-              <p style="margin:0 0 12px 0;font-size:18px;color:#1E1B4B;font-weight:700;">Hey {{customerName}} &#128075;</p>
-              <p style="margin:0;font-size:15px;color:#6B7280;line-height:1.75;">We noticed your cart is still waiting for you. We hate to see great items go to waste, so we&#39;ve put together a little something to sweeten the deal. But don&#39;t wait too long — stock is limited!</p>
-            </td>
-          </tr>
-
-          <!-- DISCOUNT CODE BOX -->
-          {{#if discountCode}}
-          <tr>
-            <td style="padding:28px 40px 0 40px;">
-              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-                <tr>
-                  <td style="background:linear-gradient(135deg,#4F46E5 0%,#7C3AED 100%);border-radius:14px;padding:28px 24px;text-align:center;">
-                    <p style="margin:0 0 6px 0;font-size:13px;font-weight:700;color:rgba(255,255,255,0.80);text-transform:uppercase;letter-spacing:1.5px;">&#127873; Special Offer Just for You</p>
-                    <p style="margin:0 0 14px 0;font-size:15px;color:rgba(255,255,255,0.90);line-height:1.5;">{{discountText}}</p>
-                    <div style="display:inline-block;background:rgba(255,255,255,0.15);border:2px dashed rgba(255,255,255,0.50);border-radius:10px;padding:12px 30px;margin-bottom:12px;">
-                      <p style="margin:0;font-size:26px;font-weight:900;color:#FFFFFF;letter-spacing:4px;font-family:'Courier New',Courier,monospace;">{{discountCode}}</p>
-                    </div>
-                    <p style="margin:0;font-size:12px;color:rgba(255,255,255,0.70);">Applied automatically at checkout</p>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-          {{/if}}
-
-          <!-- DIVIDER -->
-          <tr>
-            <td style="padding:28px 40px 0 40px;">
-              <div style="border-top:2px dashed #E5E7EB;"></div>
+            <td align="center" style="padding-bottom:28px;">
+              <p style="margin:0;font-size:14px;color:#666666;line-height:1.6;">Hi {{#if customerName}}{{customerName}}{{else}}there{{/if}}, we saved your cart. Here's what's in it.</p>
             </td>
           </tr>
 
           <!-- CART ITEMS -->
           <tr>
-            <td style="padding:24px 40px 0 40px;">
-              <p style="margin:0 0 18px 0;font-size:12px;font-weight:700;color:#9CA3AF;text-transform:uppercase;letter-spacing:1.2px;">&#128722; Your Saved Cart</p>
-
-              {{#each cartItems}}
-              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin-bottom:14px;background-color:#F9F9FC;border-radius:12px;border:1px solid #EEF0F7;">
+            <td style="border-top:1px solid #111111;padding-top:20px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                {{#each cartItems}}
                 <tr>
-                  <td width="80" style="padding:14px 0 14px 14px;vertical-align:middle;">
-                    <img src="{{this.imageUrl}}" alt="{{this.name}}" width="68" height="68" style="width:68px;height:68px;object-fit:cover;border-radius:8px;display:block;border:1px solid #E5E7EB;" />
-                  </td>
-                  <td style="padding:14px 14px 14px 16px;vertical-align:middle;">
-                    <p style="margin:0 0 5px 0;font-size:15px;font-weight:700;color:#1E1B4B;line-height:1.3;">{{this.name}}</p>
-                    <p style="margin:0;font-size:13px;color:#9CA3AF;">Qty: <span style="font-weight:600;color:#6B7280;">{{this.quantity}}</span></p>
-                  </td>
-                  <td align="right" style="padding:14px 18px 14px 14px;vertical-align:middle;white-space:nowrap;">
-                    <p style="margin:0;font-size:17px;font-weight:800;color:#4F46E5;">{{this.price}}</p>
-                  </td>
-                </tr>
-              </table>
-              {{/each}}
-
-            </td>
-          </tr>
-
-          <!-- CART TOTAL -->
-          <tr>
-            <td style="padding:14px 40px 0 40px;">
-              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-                <tr>
-                  <td style="padding:18px 22px;background:linear-gradient(135deg,#EDE9FE 0%,#F5F3FF 100%);border-radius:12px;border:1px solid #DDD6FE;">
-                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                  <td style="padding:12px 0;border-bottom:1px solid #EEEEEE;">
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                       <tr>
-                        <td style="font-size:15px;font-weight:600;color:#7C3AED;">Cart Total</td>
-                        <td align="right" style="font-size:24px;font-weight:800;color:#4F46E5;">{{cartTotal}}</td>
+                        <td style="font-size:14px;color:#111111;">
+                          {{name}}{{#if variantTitle}}<br><span style="font-size:12px;color:#999999;">{{variantTitle}}</span>{{/if}}
+                        </td>
+                        <td align="center" width="40" style="font-size:14px;color:#666666;">&times;{{quantity}}</td>
+                        <td align="right" width="70" style="font-size:14px;font-weight:700;color:#111111;white-space:nowrap;">{{price}}</td>
                       </tr>
                     </table>
                   </td>
+                </tr>
+                {{/each}}
+              </table>
+            </td>
+          </tr>
+
+          <!-- TOTAL -->
+          <tr>
+            <td style="padding:16px 0 28px 0;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="font-size:15px;font-weight:700;color:#111111;">Cart Total</td>
+                  <td align="right" style="font-size:17px;font-weight:700;color:#111111;">{{cartTotal}}</td>
                 </tr>
               </table>
             </td>
@@ -129,65 +75,30 @@
 
           <!-- CTA -->
           <tr>
-            <td align="center" style="padding:36px 40px 12px 40px;">
-              <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+            <td align="center" style="padding-bottom:12px;border-top:1px solid #111111;padding-top:28px;">
+              <table role="presentation" cellpadding="0" cellspacing="0">
                 <tr>
-                  <td align="center" style="background-color:#4F46E5;border-radius:10px;box-shadow:0 6px 20px rgba(79,70,229,0.40);">
-                    <a href="{{checkoutUrl}}" target="_blank" style="display:inline-block;padding:17px 44px;font-size:16px;font-weight:800;color:#FFFFFF;text-decoration:none;letter-spacing:0.3px;white-space:nowrap;">&#128184;&nbsp;&nbsp;Claim My Offer &amp; Checkout</a>
-                  </td>
-                </tr>
-              </table>
-              <p style="margin:14px 0 0 0;font-size:13px;color:#9CA3AF;">Offer expires soon — don&#39;t miss out!</p>
-            </td>
-          </tr>
-
-          <!-- TRUST -->
-          <tr>
-            <td style="padding:24px 40px 0 40px;">
-              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="border-top:1px solid #F3F4F6;">
-                <tr>
-                  <td align="center" width="33%" style="padding:20px 8px 0 8px;">
-                    <p style="margin:0 0 6px 0;font-size:22px;">&#128274;</p>
-                    <p style="margin:0;font-size:11px;font-weight:700;color:#9CA3AF;text-transform:uppercase;letter-spacing:0.6px;">Secure<br/>Checkout</p>
-                  </td>
-                  <td align="center" width="34%" style="padding:20px 8px 0 8px;border-left:1px solid #F3F4F6;border-right:1px solid #F3F4F6;">
-                    <p style="margin:0 0 6px 0;font-size:22px;">&#9889;</p>
-                    <p style="margin:0;font-size:11px;font-weight:700;color:#9CA3AF;text-transform:uppercase;letter-spacing:0.6px;">Limited<br/>Stock</p>
-                  </td>
-                  <td align="center" width="33%" style="padding:20px 8px 0 8px;">
-                    <p style="margin:0 0 6px 0;font-size:22px;">&#127873;</p>
-                    <p style="margin:0;font-size:11px;font-weight:700;color:#9CA3AF;text-transform:uppercase;letter-spacing:0.6px;">Exclusive<br/>Discount</p>
+                  <td align="center" style="background-color:#111111;">
+                    <a href="{{checkoutUrl}}" style="display:inline-block;padding:14px 36px;font-size:14px;font-weight:700;color:#FFFFFF;text-decoration:none;letter-spacing:0.3px;">Complete Your Purchase</a>
                   </td>
                 </tr>
               </table>
             </td>
           </tr>
-
-          <!-- HELP -->
           <tr>
-            <td style="padding:24px 40px 32px 40px;">
-              <p style="margin:0;font-size:13px;color:#9CA3AF;line-height:1.7;text-align:center;">Need help? We&#39;re just an email away.<br/><a href="mailto:{{storeSupportEmail}}" style="color:#4F46E5;text-decoration:none;font-weight:600;">{{storeSupportEmail}}</a></p>
+            <td align="center" style="padding-bottom:8px;">
+              <p style="margin:0;font-size:12px;color:#999999;">This link expires soon.</p>
             </td>
           </tr>
 
           <!-- FOOTER -->
           <tr>
-            <td style="background-color:#F9F9FC;border-top:1px solid #F0F0F7;padding:24px 40px;border-radius:0 0 16px 16px;">
-              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-                <tr>
-                  <td align="center">
-                    <p style="margin:0 0 6px 0;font-size:13px;font-weight:700;">
-                      <a href="{{storeUrl}}" target="_blank" style="color:#4F46E5;text-decoration:none;">{{storeName}}</a>
-                    </p>
-                    <p style="margin:0 0 10px 0;font-size:12px;color:#9CA3AF;line-height:1.6;">{{storeAddress}}</p>
-                    <p style="margin:0 0 6px 0;font-size:12px;color:#9CA3AF;">You received this because you have items in your cart.</p>
-                    <p style="margin:0;font-size:12px;color:#9CA3AF;">
-                      <a href="{{unsubscribeUrl}}" target="_blank" style="color:#9CA3AF;text-decoration:underline;">Unsubscribe</a> from cart reminder emails
-                    </p>
-                    <p style="margin:10px 0 0 0;font-size:11px;color:#C4C4D0;">&copy; {{currentYear}} {{storeName}}. All rights reserved.</p>
-                  </td>
-                </tr>
-              </table>
+            <td align="center" style="padding-top:28px;border-top:1px solid #EEEEEE;">
+              <p style="margin:0 0 6px 0;font-size:12px;color:#666666;">Questions? <a href="mailto:{{storeSupportEmail}}" style="color:#111111;text-decoration:underline;">{{storeSupportEmail}}</a></p>
+              <p style="margin:0 0 10px 0;font-size:12px;color:#999999;line-height:1.6;">{{storeAddress}}</p>
+              <p style="margin:0 0 8px 0;font-size:12px;color:#999999;">You're receiving this because you added items to your cart at <a href="{{storeUrl}}" style="color:#111111;text-decoration:underline;">{{storeName}}</a>.</p>
+              <p style="margin:0;font-size:12px;color:#999999;"><a href="{{unsubscribeUrl}}" style="color:#999999;text-decoration:underline;">Unsubscribe</a></p>
+              <p style="margin:10px 0 0 0;font-size:11px;color:#CCCCCC;">&copy; {{currentYear}} {{storeName}}</p>
             </td>
           </tr>
 
