@@ -94,6 +94,8 @@ async function handleShiprocketWebhook(payload) {
     return;
   }
 
+  logger.info('Shiprocket raw tracking response', { orderId: order.id, rawStatus, trackingData });
+
   const mappedStatus = shiprocketService.mapShiprocketStatus(rawStatus);
   if (!mappedStatus) {
     logger.debug('Shiprocket webhook: unmappable status', { rawStatus });

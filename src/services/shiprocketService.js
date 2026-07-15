@@ -105,9 +105,9 @@ async function trackShipmentById(shipmentId) {
  * @returns {'shipped'|'out_for_delivery'|'delivered'|'returned'|null}
  */
 function mapShiprocketStatus(shiprocketStatus) {
-  if (!shiprocketStatus) return null;
+  if (shiprocketStatus === null || shiprocketStatus === undefined) return null;
 
-  const status = shiprocketStatus.toLowerCase();
+  const status = String(shiprocketStatus).toLowerCase();
 
   if (
     status.includes('shipped') ||

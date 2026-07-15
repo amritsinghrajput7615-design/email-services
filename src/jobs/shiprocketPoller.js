@@ -88,6 +88,8 @@ async function pollShiprocketStatuses() {
         continue;
       }
 
+      logger.info('Shiprocket raw tracking response', { orderId: order.id, rawStatus, trackingData });
+
       const mappedStatus = shiprocketService.mapShiprocketStatus(rawStatus);
 
       if (!mappedStatus) {
