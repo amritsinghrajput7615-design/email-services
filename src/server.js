@@ -15,7 +15,15 @@ require('./queues/workers/emailWorker');
 // ─── Create App ────────────────────────────────────────────────
 const app = express();
 
-// ─── Body Parsing (global — webhooks override with raw) ────────
+// ─── Webhooks (mounted BEFORE the global JSON parser) ──────────
+// Each webhook router applies its own express.raw() internally. If the
+// global express.json() below ran first, it would consume the request
+// stream and there'd be nothing raw left for these routers to verify.
+app.use('/webhooks/shopify', require('./webhooks/shopify'));
+app.use('/webhooks/shiprocket', require('./webhooks/shiprocket'));
+app.use('/webhooks/fastrr', require('./webhooks/fastrr'));
+
+// ─── Body Parsing (global — applies to everything mounted after this) ──
 app.use(express.json({ limit: '5mb' }));
 app.use(express.urlencoded({ extended: true }));
 
@@ -31,13 +39,6 @@ app.get('/health', (req, res) => {
     uptime: process.uptime(),
   });
 });
-
-// ─── Webhooks ──────────────────────────────────────────────────
-// Note: Shopify webhook route uses express.raw() internally
-app.use('/webhooks/shopify', require('./webhooks/shopify'));
-app.use('/webhooks/shiprocket', require('./webhooks/shiprocket'));
-app.use('/webhooks/fastrr', require('./webhooks/fastrr'));
-
 // ─── Root route ────────────────────────────────────────────────
 // Returns a JSON status payload instead of 404-ing — Shopify's embedded app
 // iframe and health monitors hit GET / directly.
