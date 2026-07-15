@@ -74,10 +74,10 @@ async function pollShiprocketStatuses() {
       // Extract the current status from tracking response
       // Shiprocket's tracking response structure:
       // trackingData.tracking_data.track_status or similar
-      const rawStatus =
-        trackingData?.tracking_data?.shipment_status ||
+     const rawStatus =
         trackingData?.tracking_data?.current_status ||
         trackingData?.current_status ||
+        trackingData?.tracking_data?.shipment_status ||
         null;
 
       if (!rawStatus) {
